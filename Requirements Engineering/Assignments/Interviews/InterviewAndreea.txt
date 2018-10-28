@@ -1,0 +1,44 @@
+Interview No.01
+
+User Profile
+------------
+Name: Andreea Stegerean
+Company: X2Mobile
+Position: iOS Developer
+
+
+1. During your search for an internship, what was the position you were interested in pursuing? 
+
+I applied for an internship position as iOS developer, in Cluj-Napoca.
+
+2. Describe the steps you had to follow to obtain your internship.
+
+I did not actively look for an internship position at the time; in my case, I spent nearly a day searching on social media and on a small website to find an internship position fitted with my abilities and interests. I sent my application after I saw an ad on Facebook.
+
+3. When applying for an internship position, what do you think is the hardest step in the process?
+
+Probably getting ready for an interview; those interviews tend to evaluate both your behaviour and your technical skills, depending on the company' size.
+
+4. What is the most significant pain point related to your internship's selection process?
+
+The waiting period from the time you ended your interview until you get a phone call from your interviewer because you are unsure of the success of your meeting. 
+
+5. Did someone recommend you for this internship? Do you think his/hers recommendation played a crucial role in the selection process?
+
+I  had zero personal recommendations.
+
+6. What is your opinion regarding the ways companies select their interns currently?
+
+I think it's a straightforward process, optimised for companies, not for interns; I think our focus should be placed on our interns, not on our time to deal with them. Companies should allocate more time to evaluate them and their performance. 
+
+7. What's your opinion about the job posting websites and applications?
+
+I think they are useful for people who are actively searching for a job; they play the role of our old newspapers and may provide you with great opportunities. I have almost zero experience with them because I applied for my internship directly on the company's website.
+
+8. Considering how many companies today are using artificial intelligence to filter their candidates, do you consider the concept ethical?
+
+No; I think the automatic systems are not optimised to detect talent or interesting candidates, only those people who match their selection checklist.
+
+9. What could be done to improve the process of selecting the right candidate for an internship?
+
+The process is well defined and standardised across multiple industries; it's difficult to improve or change the process at this stage, but I think if we improve without automatisation our human resources department, we will enhance the overall process. 

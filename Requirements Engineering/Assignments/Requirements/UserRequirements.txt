@@ -1,0 +1,94 @@
+Requirement: Job Search System
+	Number: 001
+	Description: A user
+		SHOULD be able to search for a specific job 
+		BY company name or position
+		TO find an excellent job for his abilities and interests.
+
+Requirement: Job Listing
+	Number: 002
+	Description: A user
+		SHOULD be able to see all the jobs published in our system
+		TO compare the offers from the local community or other sources.
+
+Requirement: Profile Resume
+	Number: 003
+	Description: A student
+		SHOULD be able to upload his resume 
+		ON his profile page
+		TO inform companies about his experience and abilities.
+
+Requirement: Job Application
+	Number: 004
+	Description: A student
+		SHOULD be able to apply to a posted job 
+		BY pressing a single button 'Apply'
+		TO inform the company of his availability.
+
+Requirement: Security
+	Number: 005
+	Description: A student
+		SHOULD create an account
+		BY using our registration system
+		TO be able to apply for jobs.
+
+Requirement: Job Posting
+	Number: 006
+	Description: A company
+		SHOULD be able to create a job offer
+		BY using our `job posting template`
+		TO inform students of the offer.
+
+Requirement: Applicants Listing
+	Number: 007
+	Description: A company
+		SHOULD be able to view all the applicants
+		ON a job posted by the specific company
+		TO be able to view their resume and filter them for an interview.
+
+Requirement: Applicants Selection
+	Number: 008
+	Description: A company
+		SHOULD be able to select the candidates
+		ON a job position posted by the specific company
+		TO be able to contact them to set a date for an interview.
+
+Requirement: Selection Notification
+	Number: 009
+	Description: A student
+		SHOULD be notified by our system when he is selected for an interview
+		ON an applied job position
+		TO be informed of the current state of his application.
+
+Requirement: Company Account
+	Number: 010
+	Description: A company
+		SHOULD be able to create an account on our platform
+		TO post jobs for students
+
+Requirement: Email Confirmation
+	Number: 011
+	Description: A user
+		SHOULD confirm his account
+		BY clicking on a link sent to his email account
+		TO filter unwanted/fake accounts
+
+Requirement: Job Details
+	Number: 012
+	Description: A job offer
+		SHOULD include details such as requirements, expectations, description and others
+		TO inform the student about the company's offer
+
+Requirement: Domain Filter
+	Number: 013
+	Description: A user
+		SHOULD be able to filter jobs 
+		BY domain (development, QA, sales, marketing, design and others)
+		TO view only relevant job offers
+
+
+
+
+
+
+

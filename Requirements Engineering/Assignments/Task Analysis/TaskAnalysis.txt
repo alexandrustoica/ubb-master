@@ -1,0 +1,20 @@
+Primary Task: Get An Internship.
+	Task 1: Create Resume
+		Task 1A: Write Your Contact Information
+		Task 1B: Write About Your Experience [Academic, Professional]
+		Task 1C: Write About Your Education
+		Task 1D: Provide A List Of Skills & Abilities
+		Task 1E: Attach Additional Documents [Transcripts, Recommendation, Letters]
+	Task 2: Search For Internships 
+		Task 2A: Select Your Search Criteria [Domain, Availability, Salary ..]
+		Task 2B: View List Of Filtered Companies 
+	Task 3: Apply For An Internship
+		Task 3A: Read The Job's Requirements
+		Task 3B: Apply For Internship
+			Task 3BA: Press The 'Apply' Button
+			Task 3BB: Upload Your Resume
+	Task 4: Interview For Your Internship
+		Task 4A: Get Notified By The Company
+		Task 4B: Choose A Date For Your Interview
+		Task 4C: Go To Your Interview & Do Well 
+	Task 5: Accept The Job
