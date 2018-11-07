@@ -87,6 +87,24 @@ Requirement: Domain Filter
 		TO view only relevant job offers
 
 
+Requirement: Score System
+	Number: 014
+	Description: A student
+		SHOULD receive points
+		BY applying to an internship position
+		TO increase the number of candidates for an internship
+
+Requirement: Sort By Score
+	Number: 015
+	Description: An user
+		SHOULD be able to sort candidates by their score
+		TO view relevant content
+
+
+
+
+
+	
 
 
 
