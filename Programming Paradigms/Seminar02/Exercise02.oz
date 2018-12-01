@@ -1,7 +1,4 @@
 
-% Exercise 02:
-% -----------
-
 declare
 
 fun {Reverse List Accumulator}

@@ -1,6 +1,3 @@
-% Exercise 02:
-% -----------
-% Compute n ^ m where n is an integer and m is a natural number.
 
 declare
 fun {Power Base Exponent}

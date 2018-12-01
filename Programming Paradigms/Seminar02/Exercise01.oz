@@ -1,7 +1,4 @@
 
-% Exercise 01:
-% -----------
-
 declare
 fun {Fractorial Start End Accumulator}
    case End == Start of
@@ -15,4 +12,3 @@ fun {Comb N K}
 end
 
 {Browse {Comb 25 }}
-   

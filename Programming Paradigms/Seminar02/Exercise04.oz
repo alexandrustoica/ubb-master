@@ -46,5 +46,5 @@ end
 
 {Browse {IsSorted tree(root: 6
                        left: tree(root: 1 left: 0 right: 2)
-                       right: tree(root: 10 left: 9 right: 122))}}
+                       right: tree(root: 10 left: 9 righty: 122))}}
 
