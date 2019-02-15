@@ -1,0 +1,13 @@
+
+\begin{center}
+\begin{tikzpicture}[node distance=10mm]
+
+\draw[dashed, -{Latex[black,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:x=4.5) -- (xyz cs:x=10.5) node[left=5mm, rotate=-60] {$implementation$};
+
+\draw[red, -{Latex[red,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:x=4.5) -- (xyz cs:x=5.5) node[left=5mm, rotate=-60] {$computation\#1$};
+\draw[blue, -{Latex[blue,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:x=6.5) -- (xyz cs:x=7.5) node[left=5mm, rotate=-60] {$computation\#2$};
+\draw[black!60!green, -{Latex[black!60!green,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:x=8.5) -- (xyz cs:x=9.5) node[left=5mm, rotate=-60] {$computation\#3$};
+
+
+\end{tikzpicture}
+\end{center}

@@ -1,0 +1,8 @@
+\section{Conclusions}
+\label{sec::conclusions}
+
+When dealing with cross-cutting concerns which wave their effects in multiple modules, we have two methods to tackle the encapsulation of our decorative behaviour, (1) using monads, mathematical data structures from functional programming or (2) aspects from aspect-oriented programming. Both methods allow us to decorate existing systems for functions with new operations such as logging or security, although depending on our system's complexity, one method may challenge the other.
+
+Aspects may unpredictably influence an existent system, due to their target detection power provided by their pointcuts. Although monads are more predictable and more comfortable to compose, the difficulty of their application varies based on a couple of critical features of a given programming language such as do notations. 
+
+One may use aspects to detect monads in functional programming languages since all program's effects are encapsulated inside them, or implement aspect-oriented features such as aspect waving using monadic structures.

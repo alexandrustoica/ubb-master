@@ -1,0 +1,36 @@
+\section{Introduction}
+\label{sec::introduction}
+
+A monad represents a mathematical design pattern which encapsulates a given value and an additional computation or effect \cite{inproceedings}. Every monadic structure respects the following three laws
+
+\begin{equation*}
+\begin{gathered}
+    unit :: x \rightarrow M x \\
+    value :: M x \rightarrow x \\
+    bind ::  M x \rightarrow (x \rightarrow M y) \rightarrow My
+\end{gathered}
+\end{equation*}
+
+which helps us create a monad $M x$ from a given value $x$, transform our monad $M x$ to another monad of type $M y$ and return the value encapsulated in our structure. \cite{inproceedings}
+
+In functional programming, monads are used to encapsulate effects, computations which at some point in time $t$ return a value. Due to their elegant properties, monads are a good way to abstract actions which may produce side-effects such as IO operations.
+
+In different circumstances, a new programming paradigm named aspect-oriented programming evolved around the idea of encapsulating cross-cutting concerns (computations which affect multiple modules) into aspects. 
+
+Thus, our community had split into two groups, to try to popularise each method and promote it in each other's programming paradigm.
+
+In this paper, we do a comparative analysis over those two approaches, providing a simplified context in which we are using them to encapsulate behaviours: 
+
+\begin{itemize}
+    
+    \item We describe the generic environment within monads and advices may help us to extend our code (section \ref{sec::problem}), and we simplify our generic model 
+    to provide a runnable implementation of our solutions.
+    
+    \item We present a monadic data structure which solves our initial problem, and we describe a couple of advantages and disadvantages when using a monad as a way to compose behaviours (section \ref{sec::solution}).
+    
+    \item We provide an aspect, containing a pointcut and an advice which resolves our challenging situation (section \ref{sec::aop}), and we evaluate the solution in contrast to a monadic structure. 
+    
+    \item We discuss related work in section \ref{sec::related::work} and provide our evaluation's  conclusions in section \ref{sec::conclusions}. 
+    
+\end{itemize}
+

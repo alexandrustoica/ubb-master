@@ -1,0 +1,26 @@
+\addbibresource{references.bib}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1em}
+
+\setlength{\columnseprule}{1pt}
+\def\columnseprulecolor{\color{gray}}
+\setlength{\columnsep}{1cm}
+
+\newcommand{\writecode}[3] {
+\usemintedstyle{friendly}
+\begin{figure}[h!]
+    \centering
+    \inputminted{#1}{#2}
+    \caption{#3}
+\end{figure}
+}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\newtheorem{remark}{Utility}[subsection]
+\newtheorem{corollary}{Motivation}
+\newtheorem{lemma}{Assembly Connection}[subsection]
+
+\newtheorem{observation}{Answer}[section]
+\newtheorem{conclusion}{Conclusion}

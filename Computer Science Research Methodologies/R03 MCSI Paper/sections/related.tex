@@ -1,0 +1,21 @@
+
+\section{Related Work}
+\label{sec::related::work}
+
+Over the past two decades, a couple of impressive papers highlighted the connection between our two approaches. Prof. Wolfgang De Meuter's paper "Monads as a theoretical foundation for AOP" \cite{monthfoundaop} presents a set of similarities between monads and aspects, and how we can use monads in functional programming to simulate or replace the need for aspects from the aspect-oriented paradigm.
+
+\large{\textbf{1. Aspect-oriented extensions for functional programming languages}}
+
+An intriguing branch of the functional community tries to combine the two approaches presented in this paper into a single environment, by implementing an aspect-oriented extension for functional languages. 
+
+A refreshing example of such a language is Aspectual Caml based on Objective Caml \cite{inproceedings}. An aspect is viewed as an extension of a given data structure and a modification of the evaluation's behaviour. 
+
+In a functional programming language, currying functions define the structure of a given program; Aspectual Caml offers unique features such as curried pointcuts, which detect those types of functions in our code base.
+
+\large{\textbf{2. Anticipation of effects}}
+
+A challenging requirement in aspect-oriented code represents the anticipation of effects. In large systems controlled and manipulated by multiple aspects, it gets difficult to manually evaluate the effects produced by our functions and data structures \cite{Wang:2009:APM:1596614.1596621}.
+
+Usually, in functional programming languages, all effects are encapsulated into monadic structures (or applicative functors or comonads) \cite{Wang:2009:APM:1596614.1596621}, adding advices into a functional program will generate a new approach in encapsulating side-effects. This addition may generate a difficulty when evaluating the time complexity of a given algorithm, and a challenging situation in lazily evaluated computations.
+
+The predictability factor of our programs will suffer if we use both methods to encapsulate computations \cite{Wang:2009:APM:1596614.1596621}.

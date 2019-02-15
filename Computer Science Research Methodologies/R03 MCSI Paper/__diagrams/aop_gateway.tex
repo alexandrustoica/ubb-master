@@ -1,0 +1,30 @@
+\tikzstyle{action} = [rectangle, rounded corners, font=\linespread{1}\selectfont,
+draw, text width=4em, text badly centered, inner sep=4pt]
+
+\tikzstyle{other} = [circle, rounded corners, font=\linespread{1}\selectfont,
+draw, text width=6em, text badly centered]
+            
+\begin{center}
+\begin{tikzpicture}[node distance=10mm]
+            
+\node[action] [fill=white] (advice) {$advice$};
+
+\node[action] [below left=7mm of advice, fill=white] (pointcut) {$pointcut$};
+
+\node[] [below=7mm of advice] (label) {$aspect$};
+\node[action] [below right=7mm of advice, fill=white] (target) {$target_B$};
+
+\node[other] [above left=20mm and 8mm of advice] (A) {$A$};
+\node[other] [above right=20mm and 8mm of advice] (B) {$B$};
+
+\node[action] [right=-7mm of A, fill=white] (fA) {$method_A$};
+\node[action] [left=-7mm of B, fill=white] (fB) {$method_B$};
+
+\node [draw=black, dashed, fit={(advice) (pointcut) (target)}]{};
+
+\draw[shorten >=  0cm, shorten <= 0cm, -{Latex[black,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}]
+(fA) edge [bend right=-30] node[above=0.2cm] {oop flow} (fB)
+(fA) edge [bend right=30] node[left=0.2cm] {$joinpoint$} (advice)
+(advice) edge [bend right=30] node[right=0.2cm] {aop flow} (fB);
+\end{tikzpicture}
+\end{center}

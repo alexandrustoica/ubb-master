@@ -1,0 +1,16 @@
+\def \spaceNode {4cm}
+
+\tikzstyle{action} = [rectangle, rounded corners, font=\linespread{1}\selectfont,
+draw, text width=4em, text badly centered, inner sep=4pt]
+
+\tikzstyle{other} = [circle, rounded corners, font=\linespread{1}\selectfont,
+draw, text width=2em, text badly centered]
+            
+\begin{center}
+\begin{tikzpicture}[node distance=10mm]
+% The axes
+\draw[red, -{Latex[red,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:x=0) -- (xyz cs:x=3) node[above] {$computation\#1$};
+\draw[blue, -{Latex[blue,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:y=0) -- (xyz cs:y=3) node[right] {$computation\#2$};
+\draw[black!60!green, -{Latex[black!60!green,length=3mm,width=3mm]}, to path={|- (\tikztotarget)}] (xyz cs:z=0) -- (xyz cs:z=3) node[left] {$computation\#3$};
+\end{tikzpicture}
+\end{center}

@@ -1,0 +1,71 @@
+\section{The Challenge}
+\label{sec::problem}
+
+Integrating additional computations into an existing system can shift into a difficult assignment because of the following conventional restrictions:
+
+\begin{itemize}
+    \item we are not permitted to modify a function's implementation
+    \item we are not authorised to alter a function's parameters' types
+    \item we are not allowed to transform the means our system composes subcomponents
+\end{itemize}
+
+Acknowledging all those limitations, one may question why such practices are necessary when mixing new services. In our examples, we limit ourselves by respecting those rules to separate our new behaviours from our legacy code. Extending our system matures into an exercise of writing new code, rather than changing existant instructions. 
+
+Furthermore, we evaluate the general case using a mathematical model which represents our legacy context:
+
+\begin{equation}
+\begin{cases}
+f_1 :: A_1 \rightarrow A_2 \rightarrow \dots \rightarrow A_n \rightarrow X_1 \\
+f_2 :: B_1 \rightarrow B_2 \rightarrow \dots \rightarrow B_n \rightarrow X_2 \\
+\vdots \\
+f_n :: Z_1 \rightarrow Z_2 \rightarrow \dots \rightarrow Z_n \rightarrow X_n \\
+h :: X_1 \rightarrow X_2 \rightarrow \dots \rightarrow X_n \rightarrow Y
+\end{cases}
+\end{equation}
+
+Our model composes $n$ functions $ f_i, i = \overline{1,n} $ using $ h $, each function represents an independent computation; to simplify our model, we can consider those a set of serial processes.
+
+Our model is composed of $n$ various functions $ f_i, i = \overline{1,n} $ and one transformation $h$ which combines all $f_i$, each mapping represents an independent computation; to simplify, we acknowledge this set of processes to be serial and synchronised.
+
+The granted practices permit us to adjust the manner in which we apply our function $(h (f_1 a_1 \dots a_n) \dots (f_n z_1 \dots z_n))$, without altering the conclusive output. The circumstances enable us to consider two options when blending a new operation:
+
+\begin{itemize}
+    \item using dynamic detection and automatic evaluation; with an aspect which encapsulates a new process, and pointcuts which detects the target action's location in our implementation scope
+    \item using static detection and automatic evaluation; with a monad to encapsulate our computation, and its bind function to evaluate it
+\end{itemize}
+
+Those two proposals tackle unique situations; by using aspects, we enlarge our implementation space from a two-dimensional setting, defined by our operation's position (where we formulate our instructions), and its time (when performing our behaviour) to a multidimensional environment, in which each distinct computation defines a dissimilar dimension of implementation. 
+
+\begin{figure}
+    \centering
+    \input{__diagrams/aop_space.tex}
+    \caption{Aspect-Oriented Implementation Space}
+    \label{fig::dimensions::aop}
+\end{figure}
+
+In different circumstances, monads elevate our computation into a different scope, which distinguishable to an extension is not self-supporting from the previously mentioned framework. A monad represents a pattern which uses high-level functions, mathematical functors, and comes as a solution for effect encapsulation.
+
+\begin{figure}
+    \centering
+    \input{__diagrams/aop_oop_space.tex}
+    \caption{Aspect-Oriented Implementation Space in Object-Oriented Environments}
+    \label{fig::dimensions::oop}
+\end{figure}
+
+Let us examine a reduced variant of our overall intricacy, to explain each strategy using monads and aspects.
+
+\begin{equation}
+\begin{cases}
+f:: Int \rightarrow String \rightarrow Boolean \\
+g :: String \rightarrow Float \rightarrow Double \\
+h :: Boolean \rightarrow Double \rightarrow Int
+\end{cases}
+\end{equation}
+
+Although all the thoughts exhibited in our paper are self-supporting from a programming language or paradigm, we use Kotlin to produce a \textit{runnable} implementation of our clarifications for several reasons:
+
+\begin{itemize}
+    \item Kotlin is a multi-paradigm language with supports functional and object-oriented features
+    \item Kotlin holds a static and powerful type system
+    \item Kotlin empowers us with extensions on generic types for supplementary operations, which is useful to clarify our monad's implementation
+\end{itemize}

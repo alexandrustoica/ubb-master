@@ -1,0 +1,36 @@
+
+\section{Monad's Approach}
+\label{sec::solution}
+
+Our monadic data structure operates as a wrapper which carries our extra behaviour and shrouds our original transformation's application $h(f(4, "test"), g("test", 4.0))$; the aforementioned technique holds beneficial features because it lets us to chain further operations, mixes them and later determines which calculation we evaluate at runtime. 
+
+\writecode{java}
+    {__code/monad_solution.kt}
+    {Monad's generic implementation in Kotlin}
+\label{fig::solution::monad::example}
+
+This approach provides us with adaptability at the expense of loquacity; we have to improve the method of applying our function h with a less convenient lambda nesting arrangement. Some functional languages permit us to manage this behaviour with syntactic sugar such as a do notation.
+
+\writecode{haskell}
+    {__code/better.hs}
+    {Alternative calling method in with do notation in Haskell}
+\label{fig::better::haskell}
+ 
+We can also decorate our initial operation with another new behaviour by using a chain of bind function calls, or we can apply our initial computation multiple times. 
+
+\writecode{kotlin}
+    {__code/composing_computation.kt}
+    {Composing computations with bind function}
+\label{fig::composition::monad}
+
+Composing monads of different types with a map function will allow us to convert between the bind calls the type of additional computation we are expecting.
+
+\begin{equation}
+    map :: a \rightarrow b \rightarrow (M N a \rightarrow M N b)
+\end{equation}
+
+\begin{equation}
+    map :: map_M \cdot map_N
+\end{equation}
+
+Flexibility is the primary advantage of using monads over aspects; we can easily extend our monads to generate new computation or add additional computations on top of our bind function.

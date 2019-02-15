@@ -1,0 +1,39 @@
+\addbibresource{references.bib}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1em}
+
+\setlength{\columnseprule}{1pt}
+\def\columnseprulecolor{\color{gray}}
+\setlength{\columnsep}{1cm}
+
+\providecommand{\keywords}[1]{\begin{center}
+    \textbf{\textit{keywords}} #1\end{center}}
+\providecommand{\acm}[1]{\begin{center}
+    \textbf{\textit{Subject Classification}} #1\end{center}}
+
+\newcommand{\writecode}[3] {
+\usemintedstyle{friendly}
+\begin{figure}[h!]
+    \centering
+    \inputminted{#1}{#2}
+    \caption{#3}
+\end{figure}
+}
+
+\newcommand{\emptydiagram}[1] {
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) rectangle (8, 2) node[pos=.5] {#1};
+\end{tikzpicture}
+\end{center}
+}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\newtheorem{remark}{Utility}[subsection]
+\newtheorem{corollary}{Motivation}
+\newtheorem{lemma}{Assembly Connection}[subsection]
+
+\newtheorem{observation}{Answer}[section]
+\newtheorem{conclusion}{Conclusion}

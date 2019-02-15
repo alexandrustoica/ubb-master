@@ -1,0 +1,29 @@
+
+\section{Aspect's Approach}
+\label{sec::aop}
+
+Aspects provide an alternative solution for our problem, in which we can control when and where the execution of our additional computation takes place.
+
+\writecode{java}
+    {__code/aop_solution.java}
+    {Aspect-oriented platform independent solution}
+\label{fig::aop::solution}
+
+Depending on the programming language, aspects may provide us with a rich and powerful detection mechanism. In languages such as Java, C\#, Kotlin or Groovy, we can detect annotations and compose aspects using them on our functions, classes or properties.
+
+Other programming languages, especially functional ones do not provide us with this type of reflection detection; we are limited to detect the location where our additional computation will execute using the function's properties such as its name, parameters types or return value type. 
+
+Such imposed limitations make our aspects challenging to combine and extend; we have to modify our existing code, the aspect's pointcut to change the location of the execution of our new behaviour. 
+
+Furthermore, some programming languages do not support aspects as an extension framework or standard library, so their usage is limited, unlike monad's universal usages.
+ 
+The dynamic control of our aspect's execution, defined by its pointcut provides a powerful mechanism which allows us to add additional computations without changing our existent code (not even the application of our h function).
+
+Unlike monads, aspects do not patch our code with additional wrappers (at least not explicitly), our compiler or interpreter takes care of the job of their coupling with our existent system.
+
+\begin{figure}
+    \centering
+    \input{__diagrams/aop_gateway.tex}
+    \caption{Aspect-Oriented As Proxy}
+    \label{fig::gateway::oop}
+\end{figure}

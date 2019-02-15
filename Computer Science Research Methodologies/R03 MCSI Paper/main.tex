@@ -1,0 +1,32 @@
+\documentclass[twocolumn, 11pt]{article}
+
+\input{packages.tex}
+\input{title.tex}
+\input{commands.tex}
+
+\usepackage{amsmath}
+
+
+\setlength\columnseprule{0pt}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Both monads and aspects had become a popular encapsulation method of effects into a legacy system. Programmers are increasingly using monads in their functional environments, and aspects in object-oriented settings to reduce their code's complexity and add features to their products. In this paper, we create a comparative analysis between monads and aspects, presenting their advantages and disadvantages in different contexts.
+\end{abstract}
+
+\keywords{aop, functional programming, monad, aspect, computation encapsulation}
+
+\acm{Theory of computation}
+
+\input{sections/introduction.tex}
+\input{sections/challenge.tex}
+\input{sections/monad.tex}
+\input{sections/aspect.tex}
+\input{sections/related.tex}
+\input{sections/conclusions.tex}
+
+\printbibliography
+
+\end{document}
