@@ -1,3 +1,3 @@
 [submodule "Requirements"]
-	path = Requirements
+	path = Requirements Engineering/Jobbble Server Engine
 	url = https://github.com/alexandrustoica/jobbble-server.git
