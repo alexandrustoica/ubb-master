@@ -4,20 +4,13 @@ This repository represents a collection of university projects, courses and semi
 
 ### First Semester
 
-[Agile Methodologies](/Agile%20Methodologies) <br>
-[Formal Methods](/Formal%20Methods) <br>
-[Programming Paradigms](/Programming%20Paradigms) <br>
-[Requirements Engineering](/Requirements%20Engineering) <br>
-[Computer Science Research Methodologies](/Computer%20Science%20Research%20Methodologies) <br>
-
-
 | Subject                                                                                   |   Code  | ECTS Credits |
 |-------------------------------------------------------------------------------------------|:-------:|:------------:|
-| [Agile Methodologies](/Agile%20Methodologies)                                             | MME8143 |       7      |
-| [Formal Methods](/Formal%20Methods)                                                       | MME8005 |       6      |
-| [Programming Paradigms](/Programming%20Paradigms)                                         | MME8028 |       7      |
-| [Requirements Engineering](/Requirements%20Engineering)                                   | MME8025 |       6      |
-| [Computer Science Research Methodologies](/Computer%20Science%20Research%20Methodologies) | MMR9001 |       4      |
+| [Agile Methodologies](/Agile%20Methodologies)                                             | [MME8143](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MME8143_en_tzutzu_2018_4132.pdf) |       7      |
+| [Formal Methods](/Formal%20Methods)                                                       | [MME8005](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MME8005_en_vladi_2018_3782.pdf) |       6      |
+| [Programming Paradigms](/Programming%20Paradigms)                                         | [MME8028](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MME8028_en_bparv_2018_3664.pdf) |       7      |
+| [Requirements Engineering](/Requirements%20Engineering)                                   | [MME8025](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MME8025_en_grigo_2018_3781.pdf) |       6      |
+| [Computer Science Research Methodologies](/Computer%20Science%20Research%20Methodologies) | [MMR9001](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MMR9001_ro_bparv_2018_3838.pdf) |       4      |
 
 ## Contributing
 
