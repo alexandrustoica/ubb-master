@@ -1,0 +1,3 @@
+[submodule "Requirements"]
+	path = Requirements
+	url = https://github.com/alexandrustoica/jobbble-server.git
