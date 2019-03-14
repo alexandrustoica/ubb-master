@@ -12,6 +12,12 @@ This repository represents a collection of university projects, courses and semi
 | [Requirements Engineering](/Requirements%20Engineering)                                   | [MME8025](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MME8025_en_grigo_2018_3781.pdf) |       6      |
 | [Computer Science Research Methodologies](/Computer%20Science%20Research%20Methodologies) | [MMR9001](https://www.cs.ubbcluj.ro/files/curricula/2018/syllabus/IS_sem1_MMR9001_ro_bparv_2018_3838.pdf) |       4      |
 
+### Second Semester
+
+| Subject                                                                                   |   Code  | ECTS Credits |
+|-------------------------------------------------------------------------------------------|:-------:|:------------:|
+| [Software Quality](/Software%20Quality)                                             | [MME8143](https://www.cs.ubbcluj.ro/files/curricula/2016/syllabus/PBC_sem2_MME8023_en_motogna_2016_1647.pdf) |       8      |
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
