@@ -17,6 +17,7 @@ This repository represents a collection of university projects, courses and semi
 | Subject                                                                                   |   Code  | ECTS Credits |
 |-------------------------------------------------------------------------------------------|:-------:|:------------:|
 | [Software Quality](/Software%20Quality)                                             | [MME8143](https://www.cs.ubbcluj.ro/files/curricula/2016/syllabus/PBC_sem2_MME8023_en_motogna_2016_1647.pdf) |       8      |
+| [Methodologies for Software Processes](/Methodologies%20Software%20Processes)                                             | [MME8022](https://www.cs.ubbcluj.ro/files/curricula/2017/syllabus/IS_sem2_MME8022_en_craciunf_2017_2810.pdf) |       8      |
 
 ## Contributing
 
