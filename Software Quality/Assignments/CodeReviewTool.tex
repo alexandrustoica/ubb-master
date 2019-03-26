@@ -1,0 +1,140 @@
+\documentclass[11pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+
+\newtheorem{remark}{Disadvantage}
+\newtheorem{definition}{Definition}
+\newtheorem{prof}{Advantage}
+
+\title{Detekt Code Review Tool}
+\author{Alexandru Stoica}
+\date{March 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Detekt is a static source code analyser for Kotlin programming language. It finds common programming flaws like unused variables, empty catch blocks, unnecessary object creation, and so forth. 
+
+\section{Results}
+
+Metrics
+\begin{table}[h!]
+\begin{tabular}{|l|c|}
+\hline
+Data                 & Value \\ \hline
+number of .kt files  & 43    \\ \hline
+number of packages   & 9     \\ \hline
+number of classes    & 60    \\ \hline
+number of functions  & 103   \\ \hline
+number of properties & 63    \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Complexity}
+\begin{definition}[ToManyFunctions]
+Too many functions inside a file, class, object or interface always indicate a violation of the single responsibility principle. Maybe the file, class, object  or interface wants to manage too many things at once. Extract functionality which clearly belongs together.
+\end{definition}
+
+\textbf{Files:} \\
+\texttt{/report/ReportService.kt:18:1} \\
+\texttt{/report/ReportController.kt:21:1}
+
+
+\subsection{Naming}
+\begin{definition}[VariableNaming]
+Variable names should follow the naming convention set in the projects configuration.
+\end{definition}
+
+\textbf{Files:} \\
+\texttt{/security/SecurityConstants.kt:8:5} \\
+\texttt{/report/Location.kt:38:9}
+
+\subsection{Performance}
+
+\begin{definition}[SpreadOperator]
+Using a spread operator causes a full copy of the array to be created before calling a method has a very high performance penalty.
+\end{definition}
+
+\textbf{Files:} \\
+\texttt{/taskly/system/Taskly.kt:14:26}
+
+\subsection{Style}
+
+\begin{definition}[NewLineAtEndOfFile]
+Checks whether files end with a line separator.
+\end{definition}
+
+\textbf{Files:} \\
+\texttt{/configuration/AspectConfiguration.kt:18:1} \\
+\texttt{/configuration/SwaggerConfiguration.kt:27:1} \\
+\texttt{/section/CriticalSectionController.kt} \\
+\texttt{... other 28 files}
+
+\begin{definition}[WildcardImport]
+Wildcard imports should be replaced with imports using fully qualified class names. Wildcard imports can lead to naming conflicts. A library update can introduce naming clashes with your classes which results in compilation errors.
+\end{definition}
+
+\textbf{Files:} \\
+\texttt{/section/CriticalSectionController.kt:5:1} \\
+\texttt{/section/CriticalSection.kt:10:1} \\
+\texttt{/notification/ExpoNotificationService.kt} \\
+\texttt{... other 9 files}
+
+\begin{definition}[MagicNumber]
+Report magic numbers. Magic number is a numeric literal that is not defined as a constant and hence it's unclear what the purpose of this number is. It's better to declare such numbers as constants and give them a proper name. By default, -1, 0, 1, and 2 are not considered to be magic numbers.
+\end{definition}
+
+\textbf{Files:} \\
+\texttt{/security/SecurityConstants.kt:10:33} \\
+\texttt{/report/ValidatedReport.kt:13:88} \\
+\texttt{/report/ValidatedReport.kt:31:78} \\
+\texttt{... other 7 files}
+
+
+\subsection{Complexity Report}
+
+\begin{table}[h!]
+\begin{tabular}{|l|c|}
+\hline
+Data                        & Value \\ \hline
+lines of code               & 1468  \\ \hline
+source lines of code        & 1177  \\ \hline
+logical lines of code       & 820   \\ \hline
+comment lines of code       & 20    \\ \hline
+McCabe complexity           & 153   \\ \hline
+number of total code smells & 62    \\ \hline
+mcc per 1000 lloc           & 186   \\ \hline
+comment source ratio        & 1\%   \\ \hline
+code smalls per 1000 lloc   & 75    \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Advantages}
+
+\begin{prof}
+Detekt is easy to install and use on any platform and has plugin integration for popular IDEs such as \texttt{Intellij} and \texttt{Eclipse}.
+\end{prof}
+
+\begin{prof}
+The static analyser is under an open-source licence and continues to improve each week; having over \textit{90+} contributors and \texttt{2360+} contributions within \texttt{3} years. 
+\end{prof}
+
+\begin{prof}
+Detekt provides a McCabe complexity report over the logical lines of code within our project, and it is configurable with custom set of rules. 
+\end{prof}
+
+\section{Disadvantages}
+
+\begin{remark}
+Detekt is unable to rank bugs based on their impact on the code base. Some problems are more relevant than others such as \texttt{NewLineAtEndOfFile}. Although, every line in a given file should end with character \textit{/\/n}, this rule is enforced due to legacy \texttt{POSIX} tools such as \texttt{cat}, and does not count as a "code smell". In total, the new line warnings count to 30\% of the total code smells, which may be misleading.
+\end{remark}
+
+\begin{remark}
+The static analysis does not cover aspects such as the detection of objects composed of constant properties, irregular dependencies between packages or classes, detection of hardcoded dependencies between objects and others. 
+
+This makes the overall tool mostly useless because it is unable to detect the subtitle but deadly problems in our code base.
+\end{remark}
+
+\end{document}
