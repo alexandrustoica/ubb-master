@@ -1,0 +1,63 @@
+\def \spaceNode {4cm}
+
+\tikzstyle{action} = [
+    rectangle,
+    rounded corners, 
+    font=\linespread{1}\selectfont,
+    draw, 
+    text width=10em, 
+    text badly centered, 
+    inner sep=7pt
+]
+            
+\begin{center}
+\begin{tikzpicture}[node distance=8mm]
+            
+\node[action] (source) {$Source.hs$};
+
+\node[action][below=of source] (parse) {$Parse$};
+\node[action][below=of parse] (rename) {$Rename$};
+\node[action][below=of rename] (typecheck) {$Typecheck$};
+\node[action][below=of typecheck] (desugar) {$Desugar$};
+\node[action][below=of desugar] (simplify) {$Simplify$};
+\node[action][below=of simplify] (coretidy) {$CoreTidy$};
+\node[action][below=of coretidy] (coreprep) {$CorePrep$};
+\node[action][below=of coreprep] (convert) {$Convert To STG$};
+\node[action][below=of convert] (gen) {$CodeGeneration$};
+
+
+\node[action][right=of coreprep] (conv) {$ConvertToIfaceSyn$};
+\node[action][below=of conv] (serialise) {$Serialise$};
+\node[action][below=of serialise] (hi) {$Source.hi$};
+
+
+
+\draw[shorten >=  0cm, 
+    shorten <= 0cm,
+    -{Latex[black,length=3mm,width=3mm]},
+    to path={|- (\tikztotarget)}]
+  (source) edge [bend right=0] (parse)
+  
+  (parse) edge [bend right=0] 
+    node[right=0.4cm] {$HsSyn RdrName$}  (rename) 
+  (rename) edge [bend right=0] 
+    node[right=0.4cm] {$HsSyn Name$} (typecheck)
+  (typecheck) edge [bend right=0] 
+    node[right=0.4cm] {$HsSyn Id$} (desugar)
+  (desugar) edge [bend right=0]  
+    node[right=0.4cm] {$CoreExpr$} (simplify)
+  (simplify) edge [bend right=0]
+    node[right=0.4cm] {$CoreExpr$} (coretidy)
+  (coretidy) edge [bend right=0] 
+    node[right=0.4cm] {CoreExpr (Tidy)} (coreprep)
+  (coreprep) edge [bend right=0] 
+    node[right=0.4cm] {CoreExpr (ANormal)} (convert)
+  (convert) edge [bend right=0]
+    node[right=0.4cm] {STG}(gen)
+  (coretidy) edge [bend left=20] (conv)
+  (conv) edge [bend right=0] 
+    node[right=0.4cm] {IfaceSyn} (serialise)
+  (serialise) edge [bend right=0] (hi);
+  
+\end{tikzpicture}
+\end{center}

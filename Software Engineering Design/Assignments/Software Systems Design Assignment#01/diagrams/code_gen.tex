@@ -1,0 +1,45 @@
+\def \spaceNode {4cm}
+
+\tikzstyle{action} = [
+    rectangle,
+    rounded corners, 
+    font=\linespread{1}\selectfont,
+    draw, 
+    text width=11em, 
+    text badly centered, 
+    inner sep=7pt
+]
+            
+\begin{center}
+\begin{tikzpicture}[node distance=8mm]
+            
+
+\node[action](gen) {$CodeGeneration$};
+
+\node[action][below=of gen] (print) {Pretty Print C Code};
+\node[action][right=of print] (llvm) {Generate LLVM Code};
+\node[action][left=of print] (machine) {Generate Machine Code};
+
+\node[action][below=of print] (printr) {Source.hc};
+\node[action][below=of llvm] (llvmr) {Source.ll};
+\node[action][below=of machine] (machiner) {Source.s};
+
+\draw[shorten >=  0cm, 
+    shorten <= 0cm,
+    -{Latex[black,length=3mm,width=3mm]},
+    to path={|- (\tikztotarget)}]
+  (gen) edge [bend right=0] 
+    node[right=0.4cm] {} (print)
+    (gen) edge [bend right=0] 
+    node[right=0.4cm] {} (llvm)
+    (gen) edge [bend right=0] 
+    node[right=0.4cm] {} (machine)
+  (print) edge [bend right=0] 
+    node[right=0.4cm] {} (printr)
+    (llvm) edge [bend right=0] 
+    node[right=0.4cm] {} (llvmr)
+    (machine) edge [bend right=0] 
+    node[right=0.4cm] {} (machiner);
+  
+\end{tikzpicture}
+\end{center}

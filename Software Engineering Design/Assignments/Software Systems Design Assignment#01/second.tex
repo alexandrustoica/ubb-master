@@ -1,0 +1,156 @@
+\section{Glasgow Haskell Compiler Version 8}
+\subsection{Functional Requirements}
+\subsubsection{Pattern Synonyms}
+
+\begin{requirement}
+Provide support for pattern synonyms, such that a user can name patterns from pattern matching cases and reuse them for better readability.  \cite{wiki}
+\end{requirement}
+
+\begin{wanted}
+The ability to abbreviate reusable patterns instead of written them out in full.
+\end{wanted}
+
+\begin{explication}
+The proposal provides some expressive power to patterns in Haskell; allowing users to define a complex pattern as an abbreviation and reuse it for better code reability. Let's assume that we need to
+filter a specific value within a set of possible data inputs.
+\end{explication}
+
+\writecode{haskell}
+    {code/NoPatternSynonyms.hs}
+    {No Pattern Synonyms in Haskell}
+\label{fig::no::pattern::synonyms}
+
+This code is difficult to read and unsafe due to our hard-coded data string "John" and int "8". If we have to write multiple functions which exclude John from the set of available inputs; we have to either declare a special data type which represents our new set of inputs, or we can write a pattern synonym for "John 8" which will allow us to change those hard-coded items later on. \cite{wiki}
+
+\writecode{haskell}
+    {code/PatternSynonyms.hs}
+    {Pattern Synonyms in Haskell 8}
+\label{fig::pattern::synonyms}
+
+During renaming, pattern synonyms are put in recursive binding groups together with function bindings. \cite{wiki}
+
+The \code{Typechecker} transforms \code{PatSynBinds} into a \code{PatSyn} and several \code{HsBinds}. It collects universal and existential type variables and typeclass dictionary variables, to create \code{ConPatOut} patterns from pattern synonym occurrences, and generate \code{HsBinds}. \cite{wiki}
+
+\begin{itemize}
+    \item \code{PatSyn} stores typing information for the pattern synonym
+    \item \code{HsBind} is the binder for the matcher function generated from the pattern synonym (used when desugaring pattern synonym usage sites)
+    \item another \code{HsBind} called a wrapper is created to be used for bidirectional pattern synonyms in expression contexts \cite{wiki}.
+\end{itemize}
+
+Pattern synonym occurrences in patterns are turned into \code{ConPatOuts} similar to regular constructor matches. \code{ConPatOut} has been changed to store a \code{ConLike} instead of a \code{DataCon}; the \code{ConLike} type is a sum of \code{DataCon} and \code{PatSyn}.
+
+\begin{new}
+Yes
+\end{new}
+
+% --------------------------------------------------------------------
+
+\subsubsection{Injective Type Families}
+
+\begin{requirement}
+Provide support for injective type families, such that our compiler may infer the type family's arguments.
+\end{requirement}
+
+To understand our requirement, first we should define what a type family is in Haskell; type families are a GHC extension for data type overloading  \cite{wiki}. 
+
+
+\begin{explication}
+The concept allows us to write generic modules by programming at the type level; similar to type classes (which work as interfaces) for function overloading, type families permit a program to compute what data constructors to use at run-time, not statically at compile time.
+\\\\
+With this concept in mind, an injective type family defines how our compiler infers the arguments of the type family from a given wanted result.
+\end{explication}
+
+\code{type family Id a = res | res -> a} \\
+\code{type family F a b c = d | d -> c a b} \\
+\code{type family G a b c = foo | foo -> a b} \\
+
+There are three identified forms of injectivity  \cite{wiki}:
+
+\begin{itemize}
+    \item Injectivity in all the arguments, where knowing the result (right-hand side) of a type family determines all the arguments on the left-hand side
+    \item Injectivity in some of the arguments, where knowing the RHS of a type family determines only some of the arguments on the LHS.
+    \item Injectivity in some of the arguments, where knowing the RHS of a type family and some of the LHS arguments determines other (possibly not all) LHS arguments.
+\end{itemize}
+
+Before checking that a type family is indeed injective, as declared by the user, GHC checks the correctness of injectivity annotation. Then GHC verifies if the type family really is injective. The \code{Renamer} checks the correctness of injectivity annotation (mostly variable scoping). The \code{Typechecker} checks the injectivity of open and closed type families.
+
+\begin{new}
+No, the implementation started before GHC 7 and has paused due to a lack of research of the subject  \cite{wiki}. 
+\end{new}
+
+% --------------------------------------------------------------------
+
+\subsubsection{Applicative Do Notation}
+\label{sec::sec::sec::applicative::do::notation}
+
+\begin{requirement}
+Provide support for applicative do-notation, such that in an Applicative composition of terms, each term can bind with the parameters of a lambda expression or function. 
+\end{requirement}
+
+\begin{wanted}
+This proposal wants to adds support to GHC for desugaring do-notation into Applicative expressions where possible. More details are described in the paper "Desugaring Haskell’s do-notation Into Applicative Operations".
+\end{wanted}
+
+\begin{explication}
+When \code{ApplicativeDo} is turned on, GHC uses a different method for desugaring the \code{do-notation}, which attempts to use the \code{Applicative} operator \code{<*>} as far as possible. \code{ApplicativeDo} makes it possible to use \code{do-notation} for types that are \code{Applicative} but not \code{Monad}. 
+\end{explication}
+
+The implementation is difficult, because requires a transformation that affects the \code{Typechecker} (and renaming, since is using \code{RebindableSyntax}). Therefore GHC calculates in advance everything necessary to do the transformation during renaming, but leave enough information behind to reconstruct the original source code for the purposes of error messages.
+
+% --------------------------------------------------------------------
+% --------------------------------------------------------------------
+
+\subsection{Quality Attributes}
+\label{sec::sec::second::qa}
+
+\begin{qa}
+Using the API should be fairly self-explainatory and safe.  i.e. where necessary inputs are checked for invariants and there should be no implicit dependencies \cite{wiki}.  
+\end{qa}
+
+\begin{design}
+If several phases use the same abstract syntax tree, then it will contain a type parameter which corresponds to the phases that have been performed with it.  
+\end{design}
+
+Hence, if a function requires input of type \code{AST Phase3} then it is clear that the phases with types \code{AST Phase2 -> AST Phase3} and \code{AST Phase1 -> AST Phase2}  must be performed first. GHC uses some evil hacks to simulate global variables but has some implicit assumptions when those are actually accessible. If a function is called too early; before a specific variable is initialised, GHC will terminate with am unhelpful error message  \cite{wiki}.  
+
+\begin{qa}
+Drop the use of \code{gcc} as an optimising code generator in favour of the native code generator and \code{C--}.
+\end{qa}
+
+\begin{design}
+The reasons for the design decision of dropping gcc:
+\begin{itemize}
+    \item \textbf{fragility}: new versions of gcc usually break GHC, bugs occur that are dependent on the gcc version
+    \item \textbf{compilation speed}: \code{gcc} keeps getting slower, \code{-fvia-C} is already more that 2x slower than \code{-fasm}
+    \item \textbf{flexibility}: more freedom to define calling conventions and register assignments
+    \item \textbf{dependencies}: shipping \code{gcc} with GHC on Windows is no longer needed
+\end{itemize}
+
+Ultimately \code{C--} provides the best code generation solution for portability and efficiency, yet the compiler isn't there yet, and C-- code generation in GHC is dependent on some major refactoring.
+
+\end{design}
+
+% --------------------------------------------------------------------
+% --------------------------------------------------------------------
+
+\subsection{Impact of FRs and QAs}
+
+Predicting the performance is most of the time difficult because modern CPUs are complicated. A few optimisations of performance stand out:
+
+\begin{itemize}
+    \item Efficiently using L1 cache (64byte lines)
+    \item Efficiently using the fetch window (16Byte)
+    \item Efficiently using the DSB.
+    \item Match alignment with instruction boundries.
+\end{itemize}
+
+Not a lot can be done about alignments past the first block. GHC doesn't know about the length of instructions and only emits assembly, so calculating where the alignment of blocks/instructions end up is impossible in most cases. Changing this would be a major change.
+
+% --------------------------------------------------------------------
+% --------------------------------------------------------------------
+
+\subsection{Evolution}
+
+Most of the requirements and quality attributes are independent of the previous version, yet are built on top of the past features. Injective Type Families require the functionality of Typechecker Plugins. 
+
+The primary focus of the development team was the \code{Code Generator}; GHC 8 supports \code{LLVM} code generation which improves the performance in some particular cases. Furthermore, many efforts were made to change the C code generator to rely less on the \code{gcc}.

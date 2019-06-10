@@ -1,0 +1,167 @@
+\section{Glasgow Haskell Compiler Version 7}
+
+\subsection{Functional Requirements}
+
+\subsubsection{The Applicative Monad Proposal}
+
+\begin{requirement}
+Implement "The Applicative Monad Proposal" which defines an \code{Applicative} typeclass as a superclass of \code{Monad} such that any \code{Monad} class instance will have to implement an instance of \code{Applicative} typeclass \cite{wiki}.
+\end{requirement}
+
+\begin{wanted}
+Make any Applicative dependent API compatible with a monadic context.
+\end{wanted}
+
+\begin{explication}
+By making Applicative a superclass of type Monad, a programmer can use monads to perform operations compatible with applicative instances  \cite{wiki}; since an applicative is a monoidal functor, a compressible and transformable context, we can state that any monad is applicative. The implementation of this featurer requires a couple of changes to Rename and Typechecker modules (for backwards compatibility).
+\end{explication}
+
+\begin{new}
+The concept was studied at Microsoft in the past few years, yet GHC 7 is the first version which supports an hierarchical relationship between Functors, Applicatives and Monads.
+\end{new}
+
+% --------------------------------------------------------------------
+
+\subsubsection{Burning Bridges Proposal}
+
+\begin{requirement}
+In module Prelude, re-export the primitive combinators from generic modules such as \code{Data.Traversable}, \code{Data.Monad}, \code{Data.Word} and others, proposed in the "Burning Bridges Proposal" such that fewer imports statements will be required to access features such as the \code{do-notation} for \code{Monads} and \code{Applicatives}.
+\end{requirement}
+
+Note: "Burning Bridges Proposal" documents all the re-exported combinators, for more details about them consult "GHC 7.10 Migration Guide"
+
+\begin{wanted}
+Reduce the explicit import statements for primary language's features such as monads, functors and applicatives.
+\end{wanted}
+
+\begin{explication}
+Haskell is a purely functional programming language, to manage the state of a program, a programmer needs to use design patterns such as monadic structures or functors  \cite{wiki}. Since most of our source files use those particular API chucks, it stands to reason to eliminate the need to explicitly import them, by moving the functions' declarations to the preimported module "Prelude".
+\end{explication}
+
+\begin{new}
+The idea of moving frequently used functions to Prelude module is not new; in the past, multiple services from types such as String and Int had been moved to this particular module.
+\end{new}
+
+% --------------------------------------------------------------------
+
+\subsubsection{Partial Type Signatures}
+
+\begin{requirement}
+Provide support for "partial type signatures", which give developers the ability to add wildcards to a type signature that the compiler can later infer, such that a programmer can choose which parts of a type to annotate and which to leave over to the type-checker to infer.  \cite{wiki}
+\end{requirement}
+
+\begin{wanted}
+Reduce the requirements for a valid type signature to promote their use, to simplify GHC's workload.
+\end{wanted}
+
+\begin{explication}
+In Haskell, programmers have a binary choice between omitting the type signature (and relying on type inference) or explicitly providing the type entirely.   \cite{wiki}
+\end{explication}
+
+Partial type signatures may be useful to improve the readability or understandability of types. Some types are so verbose and confusing; by replacing distracting boilerplate information with wildcards, a programmer can focus on the crucial bits of a complex type, by hiding the less relevant bits.
+
+Given a function's type signature, GHC checks that *exact* type; but if the function has a partial type signature GHC proceeds exactly
+as if it were inferring the type for the function, except that it additionally forces the function's type to have the shape given by the partial type signature.
+
+\begin{itemize}
+    \item The Parser was extended to parse wildcards in types when the appropriate extensions are enabled, and also to check that no wildcards occur in undesired places, e.g. typeclass definitions.
+
+    \item \code{HsType`} has two new constructors: \code{`HsWildcardTy`} for unnamed type wildcards (`\_`) and \code{`HsNamedWildcardTy name`} for named wildcards (`\_a`).
+    
+    \item To typecheck a binding (actually a group of bindings) with a partial type signature, \code{tcPolyInfer}, the function used for typechecking bindings without type signatures is reused and modified. 
+\end{itemize}
+  
+\begin{new}
+Providing wildcards for complicated type signatures is an innovative idea for GHC 7, and required modifications to the Parser and Typechecker systems.
+\end{new}
+
+% --------------------------------------------------------------------
+
+\subsubsection{Typechecker Plugins}
+
+\begin{requirement}
+Provide support for plugins which modify the behaviour of our type checker, such that external users can interface with GHC and write type-checking plugins to solve constraints and equalities generated by the type checker. \cite{wiki}
+\end{requirement}
+
+\begin{wanted}
+The aim of this proposal is to make it easier to experiment with
+alternative constraint solvers, by making it possible to supply them
+in normal Haskell libraries and dynamically loading them at compile
+time, rather than requiring implementation inside GHC itself.
+\end{wanted}
+
+\begin{explication}
+A type checker plugin, like a Core plugin, consists of a normal Haskell module that exports an identifier "plugin" of type Plugin.  \cite{wiki} 
+\end{explication}
+
+The solution followes the following steps  \cite{wiki}: 
+
+\begin{enumerate}
+    \item When type checking a module, GHC calls \code{tcPluginInit} once before constraint solving starts.  This allows the plugin to search the context, initialise mutable state or open a connection to an external process. The plugin can return a result of any type, and the result will be passed to the other two fields.
+    
+    \item  During constraint solving, GHC repeatedly calls \textbf{tcPluginSolve}.  Given lists of \code{Given}, \code{Derived} and \code{Wanted} constraints, the function  simplifies them and returns a \code{TcPluginResult} that indicates whether a contradiction was found or not. If no contradictions are found, GHC will re-start the constraint solving pipeline, looping until a fixed point is reached.
+    
+    \item  Finally, GHC calls \code{tcPluginStop} after constraint solving is finished, allowing the plugin to release any resources it has allocated.    
+\end{enumerate}
+  
+\begin{new}
+Yes
+\end{new}
+
+% --------------------------------------------------------------------
+
+
+\subsubsection{Binary Integer Literals}
+
+\begin{requirement}
+Provide support for binary integer literals such as "0b10101" by default such that the language extension "-XBinaryLiterals" is no longer required.
+\end{requirement}
+
+\begin{wanted}
+Indicate binary literals by default using the prefix "0b" without the use of "-XBinaryLiterals" extension, similar with programming languages such as Python, Ruby, and Java.
+\end{wanted}
+
+\begin{explication}
+The syntax for binary literals is disabled by default and can be enabled via the new \code{\{\-\# LANGUAGE BinaryLiterals \#\-\}} pragma and/or the new "-XBinaryLiterals" extension.
+\end{explication}
+
+This new extensions requires to upgrade the \code{ExtsBitmap} type from \code{Word} to \code{Word64}, adding a 33th flag which does not guarantees to fit into a Word.
+
+\begin{new}
+No, just improves an existing component of GHC.
+\end{new}
+
+% --------------------------------------------------------------------
+% --------------------------------------------------------------------
+
+\subsection{Quality Attributes}
+
+\begin{qa}
+Provide an implementation of a framework for branch prediction to decrease the high penalty for mis-predicted branches due to pipeline stalls.  \cite{wiki}
+\end{qa}
+
+\begin{design}
+The branch's block that is unlikely to be taken, can be made the target of the jump so that the fall through branch is the likely one. On some CPUs its possible to add explicit hints to conditional jump instructions. 
+\\\\
+\code{GCC} has a framework for branch prediction to improve code generation; the framework gets information from a static analysis and heuristics, from profile feedback and from explicit user annotations via \code{builtin\_expect()}.
+\end{design}
+
+\begin{qa}
+Optimise the register usage by re-using fixed registers.
+\end{qa}
+
+\begin{design}
+The register allocator should treat fixed registers (like the heap pointer) in the same way as other registers: they can be spilled and reloaded. This allows an inner loop that doesn't require access to heap pointer to re-use the register. \cite{wiki}
+\end{design}
+
+% --------------------------------------------------------------------
+% --------------------------------------------------------------------
+
+\subsection{Impact of FRs and QAs}
+
+The general software architecture remains the same as in previous versions (see section \ref{sec::architecure}). 
+
+Most of the modifications are taking place in the GHC's higher layers, the Parser, Typechecker and Desugar are usually affected when implementing new requirements. That is a consequence of the method in which our Haskell code is transformed into a simple programming language called "Core".
+
+Ones the compiler gets to desugar Haskell code into Core expressions, all of the new features don't affect the succeeding layers ("Simplify", "CoreTidy", "CorePrep", and others).
+

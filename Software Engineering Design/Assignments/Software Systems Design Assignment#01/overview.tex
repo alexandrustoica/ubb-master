@@ -1,0 +1,93 @@
+\section{Architecture and Design}
+\label{sec::architecure}
+
+The overall software architecture of GHC has been stable in the latest releases, with a few exceptions \cite{wilson2011architecture}. The project can be divided into three distinct chunks:
+
+\begin{itemize}
+    \item the compiler itself: convert Haskell code into executable machine code \cite{wilson2011architecture}
+    \item the boot libraries: tightly coupled to GHC implementation of low-level features such as \texttt{Int}
+    type.
+    \item the runtime system (RTS): large library of C code that handles all the tasks associated with \textit{running} the compiled Haskell code, such as garbage collection, thread scheduling, profiling and others. \cite{wilson2011architecture}
+\end{itemize}
+
+\subsection{The Compiler}
+
+The compiler can be divided into three primary components \cite{wilson2011architecture}:
+\begin{itemize}
+    \item the compilation manager: responsible to the compilation of multiple Haskell source files.
+    \item the Haskell compiler: handles the compilation of a single Haskell source file.
+    \item the pipeling: responsible for composing any required external programs with the Haskell compiler to compile a Haskell source file to object code.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \input{diagrams/compiler.tex}
+    \caption{The compiler's architecture and design}
+    \label{fig::compiler::architecture::design}
+\end{figure}
+
+\subsubsection{Parser}
+
+\begin{explication}
+Parser is a component which takes as input a Haskell source file (as \code{String}) and produces as output abstract syntax. \cite{wilson2011architecture}
+\end{explication}
+
+In GHC the abstract syntax datatype \code{HsSyn} is parameterised by the types of the identifiers t \code{HsSyn t}. This enables GHC to add more information to identifiers as the program passes through compiler stages, while reusing the same type of \code{AST}.
+
+The output of the parser is an abstract syntax tree (AST) of type \code{HsSyn RdrName}; the identifiers are simple strings, called \code{RdrName}. GHC uses the tools \code{Alex} and \code{Happy} to generate its lexical analysis and parsing code.
+
+\subsubsection{Rename}
+\begin{explication}
+Renaming is the process of resolving all of the identifiers in the Haskell source code (internal and external bindings and declarations) and flagging errors appropriately. \cite{wilson2011architecture}
+\end{explication}
+
+GHC makes a clean distinction between the entities, and the names by which refer to entities. The compiler also maintains a set of entities in scope at any given point in the source code.
+
+The job of the \code{Renamer} is to replace each of the names in the compiler's internal representation. Renaming takes Haskell abstract syntax \code{HsSyn RdrName} as input, and also produces abstract syntax as output \code{HsSyn Name}. 
+
+\subsubsection{Typechecker}
+\begin{explication}
+Typechecking is the process of checking that the Haskell program is type-correct. If the program passes the \code{Typechecker}, then it is guaranteed to not crash at runtime. \cite{wilson2011architecture}
+\end{explication}
+
+The input to the \code{Typechecker} is \code{HsSyn Name}, and the output is \code{HsSyn Id}, where an \code{Id} is a \code{Name} with extra information: notably a type. The \code{Typechecker} and \code{Renamer} may be interleaved, because the Template Haskell feature generates code at runtime that itself needs to be renamed and type checked.
+
+\subsubsection{Desugar \& Core Language}
+
+The definition of the Haskell defines all "syntactic sugar" constructs by their translation into simpler constructs. It is much simpler for the compiler to compile ones all the syntactic sugar is removed because the optimisation process has to work with a smaller language, called Core.
+
+Core is a small functional language, yet its a flexible medium for optimisation, ranging from high-level tuning, such as strictness analysis, to the low-level, such as strength reduction. \cite{wilson2011architecture}
+
+\subsubsection{Optimisation}
+
+The process of optimisation begins when the program is translated to Core. Each of the optimisation passes takes as input \code{Core} and produces as output \code{Core}. The\code{Simplifier} is the primary process of optimisation, and performs a large collection of correctness-preserving transformations, to produce an extra efficient program. \cite{wilson2011architecture}
+
+Some of these transformations are trivial, such as eliminating dead code or reducing case expressions; yet some are complex, such as function inlining and applying rewrite rules. The \code{Simplifier} runs between the other optimisation passes, of which there are about six (depending on the optimisation level selected by the user).
+
+\subsubsection{Code Generation}
+
+\begin{explication}
+The process of code generation converts a given optimised \code{Core} program into \code{C} code, \code{LLVM} code or machine code. \cite{wilson2011architecture}
+\end{explication} 
+
+After a couple of optimisation passes, the code takes one of two routes: 
+\begin{itemize}
+    \item it is turned into byte code for execution by the interactive interpreter
+    \item it is passed to the code generator for eventual translation to machine code
+\end{itemize}
+
+The code generator first converts the \code{Core} into a language called \code{STG} (Core language annotated with more information required by the code generator). Then, STG is translated to \code{Cmm}, a low-level imperative language with an explicit stack. 
+
+The code can take one of three routes:
+\begin{itemize}
+    \item native code generation
+    \item LLVM code generation
+    \item C code generation
+\end{itemize}
+
+\begin{figure*}
+    \centering
+    \input{diagrams/code_gen.tex}
+    \caption{Code Generation}
+    \label{fig::code::generation}
+\end{figure*}

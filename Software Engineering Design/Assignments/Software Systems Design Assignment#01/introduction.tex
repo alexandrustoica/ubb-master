@@ -1,0 +1,20 @@
+\section{Introduction}
+
+The Glasgow Haskell Compiler (GHC) is a state-of-the-art, open source, compiler and interactive cross-platform environment for the functional language Haskell. GHC supports numerous extensions, libraries, and optimisations that streamline the process of generating and executing code.
+
+
+\subsection{History \& Evaluation}
+
+GHC started as a part of an academic research project funded by the United Kingdom government at the beginning of the 90s. For over 20 years, the compiler has been under continuous active development.
+
+As of March 2019, GHC has released eight stable major versions. Our paper will focus its analysis on the latest two versions GHC 8.x.y and GHC 7.x.y. 
+
+GHC 8.0.1 introduced support for record pattern synonyms, injective type families, applicative do notation, the \texttt{-XDeriveAnyClass} extension, support for wildcards in data and type family instances and many other notable features.
+
+Even thought GHC's latest version implements a couple of exciting extensions which help the programmer write with ease generic chunks of Haskell code, GHC 7 represents by far one of the most critical updates introducing \texttt{Haskell2010}
+
+GHC 7.0.1 includes an LLVM code generator which for specific code, particularly heavy arithmetic code, can bring some nice performance improvements.
+
+\subsection{Technologies}
+
+The prototype of GHC was built using \texttt{LML} (Lazy ML), yet as most programming languages, today, the compiler is mostly written in Haskell, C and \texttt{C--}.
