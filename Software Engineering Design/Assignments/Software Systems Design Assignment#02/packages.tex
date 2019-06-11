@@ -1,0 +1,32 @@
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\usetikzlibrary{arrows, patterns, positioning, shapes, automata, fit, trees, matrix}
+\usetikzlibrary{arrows.meta}
+\theoremstyle{plain}
+
+
+\newtheorem*{conclusion}{Conclusion}
+
+\newtheorem*{consequences}{Consequence}
+
+\newtheorem*{definition}{Definition}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+
+\newcommand{\writecode}[3] {
+\usemintedstyle{friendly}
+\begin{figure}[ht]
+    \centering
+    \inputminted{#1}{#2}
+    \caption{#3}
+\end{figure}
+}
