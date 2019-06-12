@@ -1,0 +1,33 @@
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{colonequals}
+\usepackage{hyperref}
+\usepackage[nounderscore]{syntax}
+\usepackage{tikz}
+\usepackage{bussproofs}
+
+\usetikzlibrary{matrix,shapes,arrows,fit}
+
+\tikzset{   
+        every picture/.style={remember picture,baseline},
+        every node/.style={anchor=base,align=center,outer sep=1.5pt},
+        every path/.style={thick},
+        }
+
+\theoremstyle{plain}
+
+\newcommand{\ccode}[1]{\texttt{#1}}
+
+\newcommand{\writecode}[3] {
+\usemintedstyle{friendly}
+\begin{figure}[ht]
+    \centering
+    \inputminted{#1}{#2}
+    \caption{#3}
+\end{figure}
+}
+
+\setlength{\grammarindent}{2cm}
+\newcommand{\indalt}[1][2]{\\\hspace*{#1em}\textbar\quad}

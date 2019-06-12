@@ -1,0 +1,131 @@
+\section{Concurrent Object-Oriented Calculus}
+
+\begin{frame}
+\frametitle{Concurrent Object-Oriented Calculus}
+\framesubtitle{Featherweight Java}
+
+\begin{definition}
+Featherweight Java (FJ) is a generic name for Java-related core calculi, an object-oriented core language.
+\end{definition}
+
+The calculus used is a variant of Featherweight Java with destructive field updates, concurrency and explicit lock support, but without inheritance and type casts.
+\end{frame}
+
+\begin{frame}
+\frametitle{Concurrent Object-Oriented Calculus}
+\framesubtitle{Abstract Syntax Tree}
+\begin{center}
+  \begin{minipage}{0.8\linewidth}
+    \begin{grammar}
+    <D> $\coloncolonequals$ class C($\vec{f}:\vec{T}$) \{$\vec{f}:\vec{T}; \vec{M}$\}
+
+    <M> $\coloncolonequals$ m($\vec{x}:\vec{T}$)\{t\}:T
+    
+    <t> $\coloncolonequals$ stop | error | v | let x:T = e in t 
+    
+    <e> $\coloncolonequals$ t | if v then e else e | v.f | v.f := v 
+        \indalt v.m($\vec{v}$) | spawn t
+        \indalt new C($\vec{v}$) | new L 
+        \indalt v.lock | v.unlock
+        \indalt if v trylock then e else e 
+    
+    <v> $\coloncolonequals$ r | x | () 
+    
+    <T> $\coloncolonequals$ C | B | Unit | L
+    \end{grammar}
+  \end{minipage}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Concurrent Object-Oriented Calculus}
+\framesubtitle{Abstract Syntax Tree - Thread Syntax}
+\begin{center}
+  \begin{minipage}{0.8\linewidth}
+    \begin{grammar}
+    <D> $\coloncolonequals$ class C($\vec{f}:\vec{T}$) \{$\vec{f}:\vec{T}; \vec{M}$\}
+
+    <M> $\coloncolonequals$ m($\vec{x}:\vec{T}$)\{t\}:T
+\end{grammar}
+    \fcolorbox{red}{yellow}{
+    \minipage[t]{\linewidth}
+    \begin{grammar}
+        <t> $\coloncolonequals$ stop | error | v | let x:T = e in t
+    \end{grammar}
+    \endminipage}\hfill
+\begin{grammar}
+    <e> $\coloncolonequals$ t | if v then e else e | v.f | v.f := v 
+        \indalt v.m($\vec{v}$) | spawn t
+        \indalt new C($\vec{v}$) | new L 
+        \indalt v.lock | v.unlock
+        \indalt if v trylock then e else e 
+    
+    <v> $\coloncolonequals$ r | x | () 
+    
+    <T> $\coloncolonequals$ C | B | Unit | L
+    \end{grammar}
+\end{minipage}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Concurrent Object-Oriented Calculus}
+\framesubtitle{Abstract Syntax Tree - Expression Syntax}
+\begin{center}
+  \begin{minipage}{0.8\linewidth}
+    \fcolorbox{red}{yellow}{
+    \minipage[t]{\linewidth}
+    \begin{grammar}
+    <e> $\coloncolonequals$ t | if v then e else e | v.f | v.f := v 
+        \indalt v.m($\vec{v}$) | spawn t
+        \indalt new C($\vec{v}$) | new L 
+        \indalt v.lock | v.unlock
+        \indalt if v trylock then e else e 
+    \end{grammar}
+    \endminipage}\hfill
+\end{minipage}
+\end{center}
+\begin{itemize}
+    \item \ccode{if v trylock then e else e} checks the availability of a lock v for the current thread, in which case v is taken
+    \item \ccode{spawn t} starts a new thread which evaluates t in parallel with the spawning thread.
+    \item \ccode{new L} dynamically creates a new thread
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Concurrent Object-Oriented Calculus}
+\framesubtitle{Abstract Syntax Tree - Variable and Type Syntax}
+\begin{center}
+  \begin{minipage}{0.5\linewidth}
+    \fcolorbox{red}{yellow}{
+    \minipage[t]{\linewidth}
+    \begin{grammar}
+      <v> $\coloncolonequals$ r | x | () 
+    \end{grammar}
+    \endminipage}\hfill
+\begin{itemize}
+    \item $r$ = reference
+    \item $x$ = variable
+    \item $()$ = unit value
+\end{itemize}
+\end{minipage}
+\end{center}
+
+\begin{minipage}{0.8\linewidth}
+    \fcolorbox{red}{yellow}{
+    \minipage[t]{\linewidth}
+    \begin{grammar}
+    <T> $\coloncolonequals$ C | B | Unit | L
+    \end{grammar}
+    \endminipage}\hfill
+\begin{itemize}
+    \item $L$ = interface Lock from Java
+    \item $B$ = basic types
+    \item $C$ = class names
+\end{itemize}
+\end{minipage}
+\end{frame}

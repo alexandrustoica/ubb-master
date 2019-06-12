@@ -1,0 +1,27 @@
+\section{Conclusions}
+
+
+\begin{frame}
+\frametitle{Conclusions}
+The static type and effect system solves the following challenges:
+\begin{itemize}
+    \item dynamic lock creation 
+    \item passing of lock references
+    \item aliasing of lock references
+\end{itemize}
+
+Assuring absence of lock errors is thus basically a sequential problem, as one can ignore interference (a parallel program can be dealt with compositionally).
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Conclusions}
+The main assumption restricts passing the lock references via instance fields.
+\\ \newline
+There are basically only two possible ways hand over the identity of a lock:
+\begin{itemize}
+    \item via the thread constructor
+    \item via an instance field
+\end{itemize}
+\end{frame}
