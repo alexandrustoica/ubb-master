@@ -1,0 +1,69 @@
+mtype = {checkUpBike, giveCoupon, CheckOutBike} /*, CheckedOutBike*/
+
+chan signal = [0] of {mtype};
+byte secondsCount=0;
+bool bike_pickedup = false;
+bool checkup_completed = false;
+bool coupon_received = false;
+bool bike_received = false;
+bool bike_ready_to_pickup = false;
+bool bike_was_checked = false;
+
+
+active proctype PS() {
+
+	waiting: atomic {
+				printf("He/she asks for a bike checkup \n");
+		
+				signal!checkUpBike;
+				goto waitingAnswer;
+			   };
+			   
+	waitingAnswer: 
+		if
+		:: signal?CheckOutBike -> atomic {
+								printf("PS can checkout the bike \n");
+								goto checkOut;
+		   					  };
+							  
+		:: signal?giveCoupon -> atomic {
+								printf("PS received the coupon \n");
+								coupon_received = true;
+								goto waitingAnswer;
+								};            
+		fi;
+		
+    checkOut: atomic { 
+				bike_was_checked = true;
+				};
+}
+
+active proctype M() {
+	
+	waiting: atomic {
+				signal?checkUpBike -> {
+					printf("Mechanic got the bike \n");
+					bike_received = true;
+					signal!giveCoupon;
+					goto checkup;
+			   };
+	   };
+	   
+	checkup: atomic {
+			checkup_completed = true;
+			bike_was_checked = true;
+			signal!CheckOutBike;
+			goto checkOut;
+	};
+	
+	checkOut: {
+		bike_ready_to_pickup = true;
+	};
+;
+};
+
+/* [](!bike_was_checked-> <> bike_was_checked) */
+
+/* [](!bike_was_checked-> <> coupon_received) */
+/* [](!bike_was_checked-> <> checkup_completed)  */
+

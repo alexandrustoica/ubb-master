@@ -1,0 +1,80 @@
+/* Actors: Raspberry, Light bulb
+Signals:
+Raspberry sends a signal to the light bulb that it should turn on the light.
+The light bulb respond with the confirmation that the light is on. 
+Raspberry is signaling to change the color of the light bulb. 
+The light bulb sends back the confirmation. 
+Raspberry sends a signal to the light bulb to turn off the light.
+The light bulb sends back the confirmation.*/
+
+mtype = {turnOnLight, lightOn, changeColor, colorChanged, turnOffLight, lightOff}
+
+chan signal = [0] of {mtype};
+bool light_turned_on = false;
+bool color_changed = false;
+bool light_turned_off = false;
+bool no_errors = false;
+
+active proctype Raspberry() {
+	waiting: atomic {
+				printf("Raspberry sends a signal to turn on the light \n");	
+				signal!turnOnLight;
+				goto waitingAnswer;
+			};
+			   
+	waitingAnswer: 
+		if
+			:: signal?lightOn -> atomic{
+					printf("Light is on\n");
+					signal!changeColor;
+					goto waitingAnswer;
+				};
+		   	:: signal?colorChanged -> atomic {
+					printf("Color has been changed \n");
+					signal!turnOffLight;
+					goto waitingAnswer;
+			}
+			:: signal?lightOff -> atomic {
+					printf("Light off \n");
+					goto commandsRun;
+			}
+		fi;
+
+	commandsRun: atomic {
+		no_errors = true;
+	}			  	
+}
+
+active proctype LightBulb() {
+	waiting: 
+			if 
+			:: signal?turnOnLight ->  atomic {
+					printf("The light is turning on\n");
+					light_turned_on = true;
+					signal!lightOn;
+					goto waiting;
+			   };
+			:: signal?changeColor -> atomic {
+					printf("Color is changing \n");
+					color_changed = true;
+					signal!colorChanged;
+					goto waiting;
+				}
+			:: signal?turnOffLight -> atomic {
+					printf("Light is turning off \n");
+					signal!lightOff;
+					light_turned_off = true;
+					goto commandsRun;
+				}
+	   		fi;
+
+	commandsRun: atomic {
+				no_errors = true;
+	}
+}
+
+/* LTL formulas:
+	1. [](!light_turned_on-> <> light_turned_on)
+	2. [](!light_turned_on-> <> no_errors)
+	3. [](!light_turned_on-> X light_turned_on)
+*/
